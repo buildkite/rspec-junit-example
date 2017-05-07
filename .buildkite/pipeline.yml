@@ -1,8 +1,7 @@
 steps:
   - label: ":rspec:"
     command: ".buildkite/rspec.sh"
-    artifact_paths:
-      - "rspec.xml"
+    artifact_paths: "rspec.xml"
 
   - wait: ~
     continue_on_failure: true
