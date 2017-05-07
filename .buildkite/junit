@@ -10,11 +10,37 @@ require 'nokogiri'
 xml = File.read("rspec.xml")
 doc = Nokogiri::XML(xml)
 
+class Failure < Struct.new(:name, :classname, :body); end
+
+all_failures = []
+
 doc.search('//testcase').each do |testcase|
   name = testcase['name']
+  classname = testcase['classname']
   failures = testcase.search("failure")
 
   if failures.any?
-    puts "#{name} had #{failures.length} failures"
+    puts "#{name} had #{failures.length} failure"
+    failures.each do |failure|
+      all_failures << Failure.new(name, classname, failure.text.chomp)
+    end
   end
 end
+
+puts "--- Checking failures"
+
+if all_failures.empty?
+  puts "No failures, all good!"
+  exit 0
+end
+
+puts "--- Preparing annotation"
+
+buffer = "There were #{all_failures.length} failures:\n"
+
+all_failures.each do |failure|
+  buffer << "#{failure.name} in #{failure.classname}\n"
+  buffer << "#{failure.body}\n\n"
+end
+
+puts buffer
