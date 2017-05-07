@@ -2,3 +2,9 @@ steps:
   - label: ":rspec:"
     command: "bundle exec rspec --format progress --format RspecJunitFormatter --out rspec.xml"
     artifact_paths: "rspec.xml"
+
+  - wait: ~
+    continue_on_failure: true
+
+  - command: "./buildkite/junit"
+    label: ":junit:"
