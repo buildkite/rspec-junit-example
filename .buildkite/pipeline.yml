@@ -8,3 +8,8 @@ steps:
 
   - command: ".buildkite/junit"
     label: ":junit:"
+
+  - wait
+
+  - command: ".buildkite/deploy.sh"
+    label: ":rocket:"
