@@ -51,7 +51,7 @@ require 'net/https'
 require 'json'
 require 'base64'
 
-graphql_query = <<~GRAPHQL
+graphql_query = <<-GRAPHQL
 mutation MakeIT($buildID: ID!, $body: String!) {
   annotationCreate(input:{buildID:$buildID, body:$body, style:ERROR}) {
     annotationEdge {
