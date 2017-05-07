@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 
-puts "--- Downloading `rspec.xml`"
-`buildkite-agent artifact download "rspec.xml"`
+puts "--- :buildkite: Downloading `rspec.xml`"
+`buildkite-agent artifact download "rspec.xml" .`
+
+puts "--- :junit: Parsing file"
 
 require 'nokogiri'
 
