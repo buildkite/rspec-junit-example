@@ -1,0 +1,4 @@
+steps:
+  - label: ":rspec:"
+    command: "rspec --format progress --format RspecJunitFormatter --out rspec.xml"
+    artifact_paths: "rspec.xml"
