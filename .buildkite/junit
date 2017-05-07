@@ -1,3 +1,18 @@
 #!/usr/bin/env ruby
 
-puts "hello world"
+puts "--- Downloading `rspec.xml`"
+`buildkite-agent artifact download "rspec.xml"`
+
+require 'nokogiri'
+
+xml = File.read("rspec.xml")
+doc = Nokogiri::XML(xml)
+
+doc.search('//testcase').each do |testcase|
+  name = testcase['name']
+  failures = testcase.search("failure")
+
+  if failures.any?
+    puts "#{name} had #{failures.length} failures"
+  end
+end
