@@ -6,5 +6,5 @@ steps:
   - wait: ~
     continue_on_failure: true
 
-  - command: "./buildkite/junit"
+  - command: "./.buildkite/junit"
     label: ":junit:"
