@@ -20,9 +20,8 @@ doc.search('//testcase').each do |testcase|
   failures = testcase.search("failure")
 
   if failures.any?
-    puts "#{name} had #{failures.length} failure"
     failures.each do |failure|
-      all_failures << Failure.new(name, classname, failure.text.chomp)
+      all_failures << Failure.new(name, classname, failure.text.chomp.strip)
     end
   end
 end
@@ -36,9 +35,9 @@ end
 
 puts "--- Preparing annotation"
 
-buffer = "There were #{all_failures.length} failures:\n"
+buffer = "There were #{all_failures.length} failures:\n\n"
 all_failures.each do |failure|
-  buffer << "#{failure.name} in #{failure.classname}\n"
+  buffer << "#{failure.name} in #{failure.classname}\n\n"
   buffer << "---\n"
   buffer << "#{failure.body}\n"
   buffer << "---\n"
