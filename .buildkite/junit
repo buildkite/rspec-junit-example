@@ -39,9 +39,9 @@ puts "--- Preparing annotation"
 buffer = "There were #{all_failures.length} failures:\n"
 all_failures.each do |failure|
   buffer << "#{failure.name} in #{failure.classname}\n"
-  buffer << "<pre>"
-  buffer << "#{failure.body}"
-  buffer << "</pre>"
+  buffer << "---\n"
+  buffer << "#{failure.body}\n"
+  buffer << "---\n"
   buffer << "\n"
 end
 puts buffer
