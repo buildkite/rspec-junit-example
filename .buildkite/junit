@@ -55,11 +55,9 @@ require 'base64'
 
 graphql_query = <<-GRAPHQL
 mutation MakeIT($buildID: ID!, $body: String!) {
-  annotationCreate(input:{buildID:$buildID, body:$body, style:ERROR}) {
-    annotationEdge {
-      node {
-        id
-      }
+  buildAnnotate(input:{buildID:$buildID, body:$body, style:ERROR}) {
+    annotation {
+      id
     }
   }
 }
