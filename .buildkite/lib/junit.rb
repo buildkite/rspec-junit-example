@@ -1,20 +1,19 @@
 #!/usr/bin/env ruby
 
+# Reads a list of junit files and returns a nice annotation on STDOUT
+#
+# Usage: junit.rb junit-1.xml junit-2.xml junit-3.xml
+
 require 'nokogiri'
 require 'tempfile'
 
-puts "--- :buildkite: Downloading `rspec-*.xml`"
-
-`mkdir -p tmp`
-`buildkite-agent artifact download tmp/rspec-*.xml tmp`
-
 class Failure < Struct.new(:name, :classname, :body, :job); end
 
-rspec_files = Dir["tmp/rspec-*.xml"]
+rspec_files = ARGV
 all_failures = []
 
 rspec_files.each do |file|
-  puts "--- :junit: Parsing #{file}"
+  STDERR.puts "--- :junit: Parsing #{file}"
   job = file[/rspec-(.*).xml$/, 1]
   xml = File.read(file)
   doc = Nokogiri::XML(xml)
@@ -32,16 +31,16 @@ rspec_files.each do |file|
   end
 end
 
-puts "--- ❓ Checking failures"
+STDERR.puts "--- ❓ Checking failures"
 
 if all_failures.empty?
-  puts "No failures, all good!"
+  STDERR.puts "No failures, all good!"
   exit 0
 else
-  puts "There are #{all_failures.length} errors... (boo)"
+  STDERR.puts "There are #{all_failures.length} errors... (boo)"
 end
 
-puts "--- ✍️ Preparing annotation"
+STDERR.puts "--- ✍️ Preparing annotation"
 
 buffer = "There were #{all_failures.length} failures:\n\n"
 all_failures.each do |failure|
@@ -52,13 +51,11 @@ all_failures.each do |failure|
   buffer << "</details>"
   buffer << "\n\n\n"
 end
+
 puts buffer
 
-file = Tempfile.new('foo')
+STDERR.puts "--- :buildkite: Creating annotation"
+
+file = File.new("junit-annotation.md")
 file.write(buffer)
 file.close
-
-puts "--- :buildkite: Creating annotation"
-
-`cat #{file.path} | buildkite-agent annotate --context junit --style error`
-exit $?.exitstatus
