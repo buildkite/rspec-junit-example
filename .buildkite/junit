@@ -3,10 +3,6 @@
 require 'nokogiri'
 require 'tempfile'
 
-puts "--- :bundler: Bundling..."
-
-bundle
-
 puts "--- :buildkite: Downloading `rspec-*.xml`"
 
 `mkdir -p tmp`

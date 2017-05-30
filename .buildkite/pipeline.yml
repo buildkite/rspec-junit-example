@@ -12,8 +12,10 @@ steps:
   - wait: ~
     continue_on_failure: true
 
-  - command: ".buildkite/junit"
-    label: ":junit:"
+  - label: ":junit:"
+    commands:
+      - bundle
+      - .buildkite/junit
     plugins:
       docker#v1.0.0:
         image: "ruby:2.4"
