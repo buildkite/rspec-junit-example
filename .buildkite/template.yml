@@ -2,3 +2,4 @@ name: "RSpec JUnit Example"
 description: "An example pipeline that collects JUnit test failures and annotates a Buildkite build"
 steps:
   - command: "buildkite-agent pipeline upload"
+    label: ":pipeline:"
