@@ -54,11 +54,8 @@ all_failures.each do |failure|
 end
 puts buffer
 
-file = Tempfile.new('foo')
-file.write(buffer)
-file.close
-
 puts "--- :buildkite: Creating annotation"
 
-`cat #{file.path} | buildkite-agent annotate --context junit --style error`
-exit $?.exitstatus
+file = File.new("junit-annotation.md")
+file.write(buffer)
+file.close

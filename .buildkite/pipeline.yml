@@ -20,10 +20,17 @@ steps:
     commands:
       - bundle
       - .buildkite/junit
+    artifact_paths: annotation.md
     plugins:
       docker#v1.0.0:
         image: "ruby:2.4"
         workdir: /app
+
+  - wait
+
+  - label: "Annotate"
+    commands:
+      - .buildkite/annotate.sh
 
   - wait
 
