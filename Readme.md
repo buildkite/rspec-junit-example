@@ -4,6 +4,8 @@
 
 This example pipeline shows you how to annotate your builds with RSpec Junit error information and the `buildkite-agent annotate` CLI command.
 
+![Example](screenshot.png)
+
 ## License
 
 See [License.md](License.md) (MIT)
