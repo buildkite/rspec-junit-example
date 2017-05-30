@@ -52,10 +52,4 @@ all_failures.each do |failure|
   buffer << "\n\n\n"
 end
 
-puts buffer
-
-STDERR.puts "--- :buildkite: Creating annotation"
-
-file = File.new("junit-annotation.md")
-file.write(buffer)
-file.close
+STDOUT.puts buffer
