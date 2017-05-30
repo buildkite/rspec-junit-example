@@ -21,15 +21,15 @@ https://github.com/buildkite/rspec-junit-example/blob/master/.buildkite/pipeline
 Here's the first step:
 
 ```yaml
-  - label: ":rspec:"
-    artifact_paths: "tmp/rspec-*.xml"
-    commands:
-      - "bundle"
-      - "rspec --format progress --format RspecJunitFormatter --out tmp/rspec-$BUILDKITE_JOB_ID.xml"
-    plugins:
-      docker#v1.0.0:
-        image: "ruby:2.4"
-        workdir: /app
+- label: ":rspec:"
+  artifact_paths: "tmp/rspec-*.xml"
+  commands:
+    - "bundle"
+    - "rspec --format progress --format RspecJunitFormatter --out tmp/rspec-$BUILDKITE_JOB_ID.xml"
+  plugins:
+    docker#v1.0.0:
+      image: "ruby:2.4"
+      workdir: /app
 ```
 
 This step runs our "rspec" command within a Ruby docker container, and stores
@@ -39,8 +39,8 @@ the JUnit XML data to an artifact at
 The next step:
 
 ```yaml
-  - wait: ~
-    continue_on_failure: true
+ - wait: ~
+   continue_on_failure: true
 ```
 
 Tells Buildkite that if there's a failure in the previous stage of the pipeline
@@ -49,9 +49,9 @@ Usually, the `wait` step will fail the pipeline at this point since there was
 an error - but this option changes that behaviour.
 
 ```yaml
-  - label: ":junit:"
-    commands:
-      - .buildkite/junit.sh
+- label: ":junit:"
+  commands:
+    - .buildkite/junit.sh
 ```
 
 The last step is the one that parses our JUnit XML files, and turns them into a
@@ -104,10 +104,10 @@ the Buildkite UI.
 
 
 ```
-  - wait
+- wait
 
-  - command: ".buildkite/deploy.sh"
-    label: ":rocket:"
+- command: ".buildkite/deploy.sh"
+  label: ":rocket:"
 ```
 
 The final 2 steps demonstrate that the pipeline doesn't continue any further
