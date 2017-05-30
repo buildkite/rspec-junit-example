@@ -18,12 +18,7 @@ steps:
 
   - label: ":junit:"
     commands:
-      - bundle
-      - .buildkite/junit
-    plugins:
-      docker#v1.0.0:
-        image: "ruby:2.4"
-        workdir: /app
+      - .buildkite/junit.sh
 
   - wait
 
