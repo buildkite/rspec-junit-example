@@ -1,4 +1,8 @@
 steps:
+  - label: ":console:"
+    commands:
+      - env
+
   - label: ":rspec:"
     artifact_paths: "rspec.xml"
     commands:
