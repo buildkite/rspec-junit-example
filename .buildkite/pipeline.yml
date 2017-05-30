@@ -4,10 +4,10 @@ steps:
       - env
 
   - label: ":rspec:"
-    artifact_paths: "rspec.xml"
+    artifact_paths: "tmp/rspec-*.xml"
     commands:
-      - bundle
-      - rspec --format progress --format RspecJunitFormatter --out rspec.xml
+      - "bundle"
+      - "rspec --format progress --format RspecJunitFormatter --out tmp/rspec-$BUILDKITE_JOB_ID.xml"
     plugins:
       docker#v1.0.0:
         image: "ruby:2.4"
