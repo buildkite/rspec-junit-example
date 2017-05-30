@@ -2,12 +2,23 @@ steps:
   - label: ":rspec:"
     command: ".buildkite/rspec.sh"
     artifact_paths: "rspec.xml"
+    commands:
+      - bundle
+      - rspec --format progress --format RspecJunitFormatter --out rspec.xml
+    plugins:
+      docker#v1.0.0:
+        image: "ruby:2.4"
+        workdir: /app
 
   - wait: ~
     continue_on_failure: true
 
   - command: ".buildkite/junit"
     label: ":junit:"
+    plugins:
+      docker#v1.0.0:
+        image: "ruby:2.4"
+        workdir: /app
 
   - wait
 

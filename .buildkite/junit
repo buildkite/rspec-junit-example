@@ -1,79 +1,68 @@
 #!/usr/bin/env ruby
 
-puts "--- :buildkite: Downloading `rspec.xml`"
-`buildkite-agent artifact download "rspec.xml" .`
-
-puts "--- :junit: Parsing file"
-
 require 'nokogiri'
+require 'tempfile'
 
-xml = File.read("rspec.xml")
-doc = Nokogiri::XML(xml)
+puts "--- :bundler: Bundling..."
 
-class Failure < Struct.new(:name, :classname, :body); end
+bundle
 
+puts "--- :buildkite: Downloading `rspec-*.xml`"
+
+`mkdir -p tmp`
+`buildkite-agent artifact download tmp/rspec-*.xml tmp`
+
+class Failure < Struct.new(:name, :classname, :body, :job); end
+
+rspec_files = Dir["tmp/rspec-*.xml"]
 all_failures = []
 
-doc.search('//testcase').each do |testcase|
-  name = testcase['name']
-  classname = testcase['classname']
-  failures = testcase.search("failure")
+rspec_files.each do |file|
+  puts "--- :junit: Parsing #{file}"
+  job = file[/rspec-(.*).xml$/, 1]
+  xml = File.read(file)
+  doc = Nokogiri::XML(xml)
 
-  if failures.any?
-    failures.each do |failure|
-      all_failures << Failure.new(name, classname, failure.text.chomp.strip)
+  doc.search('//testcase').each do |testcase|
+    name = testcase['name']
+    classname = testcase['classname']
+    failures = testcase.search("failure")
+
+    if failures.any?
+      failures.each do |failure|
+        all_failures << Failure.new(name, classname, failure.text.chomp.strip, job)
+      end
     end
   end
 end
 
-puts "--- Checking failures"
+puts "--- ❓ Checking failures"
 
 if all_failures.empty?
   puts "No failures, all good!"
   exit 0
+else
+  puts "There are #{all_failures.length} errors... (boo)"
 end
 
-puts "--- Preparing annotation"
+puts "--- ✍️ Preparing annotation"
 
 buffer = "There were #{all_failures.length} failures:\n\n"
 all_failures.each do |failure|
   buffer << "<details>\n"
   buffer << "<summary><code>#{failure.name} in #{failure.classname}</code></summary>\n\n"
-  buffer << "<code><pre>#{failure.body}</pre></code>"
+  buffer << "<code><pre>#{failure.body}</pre></code>\n\n"
+  buffer << %{in <a href="##{failure.job}">Job ##{failure.job}</a>\n}
   buffer << "</details>"
   buffer << "\n\n\n"
 end
 puts buffer
 
-puts "--- Creating annotation"
+file = Tempfile.new('foo')
+file.write(buffer)
+file.close
 
-require 'uri'
-require 'net/http'
-require 'net/https'
-require 'json'
-require 'base64'
+puts "--- :buildkite: Creating annotation"
 
-graphql_query = <<-GRAPHQL
-mutation MakeIT($buildID: ID!, $body: String!) {
-  buildAnnotate(input:{buildID:$buildID, body:$body, style:ERROR}) {
-    annotation {
-      id
-    }
-  }
-}
-GRAPHQL
-
-build_id = ENV.fetch("BUILDKITE_BUILD_ID")
-variables = { body: buffer, buildID: Base64.strict_encode64(["Build", build_id].join("---")).force_encoding('UTF-8') }
-
-api_key = ENV.fetch("GRAPHQL_API_KEY")
-
-uri = URI.parse("http://graphql.buildkite.dev/v1")
-https = Net::HTTP.new(uri.host, uri.port)
-https.use_ssl = false
-
-req = Net::HTTP::Post.new(uri.path, { 'Content-Type' =>'application/json', 'Authorization' => "Bearer #{api_key}" })
-req.body = JSON.generate({ query: graphql_query, variables: variables })
-res = https.request(req)
-puts "Response #{res.code} #{res.message}: #{res.body}"
-
+`cat #{file.path} | buildkite-agent annotate --context junit --style error`
+exit $?.exitstatus
