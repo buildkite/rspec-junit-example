@@ -103,7 +103,7 @@ the style of annotation to `error` so it shows up as red and with a cross in
 the Buildkite UI.
 
 
-```
+```yaml
 - wait
 
 - command: ".buildkite/deploy.sh"
