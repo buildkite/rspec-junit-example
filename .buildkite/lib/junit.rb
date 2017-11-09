@@ -42,8 +42,15 @@ end
 
 STDERR.puts "--- ✍️ Preparing annotation"
 
-buffer = "There were #{all_failures.length} failures:\n\n"
-all_failures.each do |failure|
+buffer = ""
+
+if all_failures.length > 10
+  buffer << "There were #{all_failures.length} failures, showing the first 10:\n\n"
+else
+  buffer << "There were #{all_failures.length} failures:\n\n"
+end
+
+all_failures.first(10).each do |failure|
   buffer << "<details>\n"
   buffer << "<summary><code>#{failure.name} in #{failure.classname}</code></summary>\n\n"
   buffer << "<code><pre>#{failure.body}</pre></code>\n\n"
