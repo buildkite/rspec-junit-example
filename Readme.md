@@ -2,7 +2,7 @@
 
 [![Add to Buildkite](https://buildkite.com/button.svg)](https://buildkite.com/new)
 
-This example pipeline shows you how to annotate your builds with RSpec Junit error information and the `buildkite-agent annotate` CLI command.
+This example pipeline shows you how to annotate your builds with RSpec Junit error information and the `buildkite-agent annotate` CLI command (requires `buildkite-agent` v3.0-beta.23 or newer).
 
 ![Example](screenshot.png)
 
