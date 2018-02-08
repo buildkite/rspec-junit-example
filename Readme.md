@@ -12,7 +12,7 @@ Test annotations use 2 features within Buildkite:
 
 1. The `buildkite-agent annotate` command that allows you add arbiraty HTML and
    Markdown to the top of a build page
-2. A wait step with `continue_on_failiure: true` which tells the pipeline to
+2. A wait step with `continue_on_failure: true` which tells the pipeline to
    continue in the event of a failed step
 
 The `pipeline.yml` file can be seen here:
