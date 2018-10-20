@@ -27,9 +27,9 @@ Here's the first step:
     - "bundle"
     - "rspec --format progress --format RspecJunitFormatter --out tmp/rspec-$BUILDKITE_JOB_ID.xml"
   plugins:
-    docker#v1.0.0:
-      image: "ruby:2.4"
-      workdir: /app
+    - docker#v1.0.0:
+        image: "ruby:2.4"
+        workdir: /app
 ```
 
 This step runs our "rspec" command within a Ruby docker container, and stores
