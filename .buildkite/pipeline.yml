@@ -5,7 +5,7 @@ steps:
       - "bundle"
       - "rspec --format progress --format RspecJunitFormatter --out tmp/rspec-$BUILDKITE_JOB_ID.xml"
     plugins:
-      - docker#v1.0.0:
+      - docker#v2.0.0:
           image: "ruby:2.4"
           workdir: /app
 
