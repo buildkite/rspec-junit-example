@@ -26,6 +26,3 @@ PLATFORMS
 DEPENDENCIES
   rspec
   rspec_junit_formatter
-
-BUNDLED WITH
-   1.15.0
