@@ -14,6 +14,7 @@ class Calculator
   end
 
   def divide(x,y)
+    # 🤣
     raise ZeroDivisionError, "Cannot divide by zero" if y.zero?
     x / y
   end

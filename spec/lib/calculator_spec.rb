@@ -18,13 +18,13 @@ RSpec.describe Calculator do
 
   describe "#multiply" do
     it "multiplies numbers together" do
-      expect(calculator.multiply(2, 4)).to eql(8)
+      expect(calculator.multiply(2, 4)).to eql(9)
     end
   end
 
   describe "#divide" do
     it "divides the numbers" do
-      expect(calculator.divide(20, 2)).to eql(10)
+      expect(calculator.divide(20, 2)).to eql(11)
     end
   end
 end

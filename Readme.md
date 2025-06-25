@@ -1,11 +1,15 @@
-# Buildkite RSpec JUnit Example
+# Buildkite RSpec JUnit Pipeline Example
 
-[![Add to Buildkite](https://buildkite.com/button.svg)](https://buildkite.com/new)
+[![Build status](https://badge.buildkite.com/aab023f2f33ab06766ed6236bc40caf0df1d9448e4f590d0ee.svg?branch=main)](https://buildkite.com/buildkite/rspec-junit-example)
 
 This example pipeline shows you how to annotate your builds with RSpec Junit error information and the `buildkite-agent annotate` CLI command (requires `buildkite-agent` v3.0-beta.23 or newer).
 
-![Example](screenshot.png)
+<a href="https://buildkite.com/buildkite/rspec-junit-example/builds?branch=main"><img width="1491" alt="Screenshot of Buildkite rspec junit example pipeline" src=".buildkite/screenshot.png" /></a>
+👉 **Live Pipeline:** [buildkite.com/buildkite/rspec-junit-example](https://buildkite.com/buildkite/rspec-junit-example)
 
+See the full [Getting Started Guide](https://buildkite.com/docs/guides/getting-started) for step-by-step instructions on how to get this running, or [Add to Buildkite](https://buildkite.com/new) to try it yourself.
+
+[![Add to Buildkite](https://buildkite.com/button.svg)](https://buildkite.com/new)
 ## How does it work?
 
 Test annotations use 2 features within Buildkite:
