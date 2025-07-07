@@ -4,7 +4,6 @@ emoji: ":rspec:"
 color: "#EFF9FF"
 languages:
   - "Ruby"
-  - "YAML"
   - "Shell"
 steps:
   - command: "buildkite-agent pipeline upload"
