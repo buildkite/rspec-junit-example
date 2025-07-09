@@ -1,16 +1,31 @@
-# Buildkite RSpec JUnit Pipeline Example
+# Buildkite RSpec JUnit Example
 
-[![Build status](https://badge.buildkite.com/aab023f2f33ab06766ed6236bc40caf0df1d9448e4f590d0ee.svg?branch=main)](https://buildkite.com/buildkite/rspec-junit-example-1)
+[![Build status](https://badge.buildkite.com/aab023f2f33ab06766ed6236bc40caf0df1d9448e4f590d0ee.svg?branch=main)](https://buildkite.com/buildkite/rspec-junit-example-1/builds/latest?branch=main)
+[![Add to Buildkite](https://img.shields.io/badge/Add%20to%20Buildkite-14CC80)](https://buildkite.com/new)
 
-This example pipeline shows you how to annotate your builds with RSpec Junit error information and the `buildkite-agent annotate` CLI command (requires `buildkite-agent` v3.0-beta.23 or newer).
+This repository is an example [Buildkite](https://buildkite.com/) pipeline that collects JUnit test failures from [RSpec](https://rspec.info/) and annotates the build with the [`buildkite-agent annotate`](https://buildkite.com/docs/agent/v3/cli-annotate) command.
 
-<a href="https://buildkite.com/buildkite/rspec-junit-example/builds?branch=main"><img width="1491" alt="Screenshot of Buildkite rspec junit example pipeline" src=".buildkite/screenshot.png" /></a>
-👉 **Live Pipeline:** [buildkite.com/buildkite/rspec-junit-example](https://buildkite.com/buildkite/rspec-junit-example-1)
+👉 **See this example in action:** [buildkite/rspec-junit-example](https://buildkite.com/buildkite/rspec-junit-example-1/builds/latest?branch=main)
 
-See the full [Getting Started Guide](https://buildkite.com/docs/guides/getting-started) for step-by-step instructions on how to get this running, or [Add to Buildkite](https://buildkite.com/new) to try it yourself.
+See the full [Getting Started Guide](https://buildkite.com/docs/guides/getting-started) for step-by-step instructions on how to get this running, or try it yourself:
 
 [![Add to Buildkite](https://buildkite.com/button.svg)](https://buildkite.com/new)
-## How does it work?
+
+<a href="https://buildkite.com/buildkite/rspec-junit-example-1/builds/latest?branch=main">
+  <img width="2400" alt="Screenshot of Buildkite RSpec JUnit example pipeline" src=".buildkite/screenshot.png" />
+</a>
+
+
+<!-- docs:start -->
+
+## How it works
+
+This example demonstrates how to:
+- Run RSpec tests that produce JUnit XML output
+- Parse the JUnit report for failed tests
+- Use the `buildkite-agent annotate` command to display those failures directly in the Buildkite UI
+
+The annotation helps you quickly identify failing tests without digging through logs.
 
 Test annotations use 2 features within Buildkite:
 
@@ -118,6 +133,8 @@ The final 2 steps demonstrate that the pipeline doesn't continue any further
 since there was an error in one of the previous stages. If this wait step also
 had `continue_on_failure: true` then it would also continue.
 
+<!-- docs:end -->
+
 ## License
 
-See [License.md](License.md) (MIT)
+See [LICENSE.md](LICENSE.md) (MIT)
