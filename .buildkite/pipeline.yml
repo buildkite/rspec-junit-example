@@ -10,14 +10,16 @@ steps:
           image: "ruby:2.4"
           workdir: /app
 
-  - wait: ~
+  - wait:
     continue_on_failure: true
 
   - label: ":junit:"
     commands:
       - .buildkite/junit.sh
 
-  - wait
+  - wait:
+    continue_on_failure: true
 
-  - command: ".buildkite/deploy.sh"
-    label: ":rocket:"
+  - label: ":rocket:"
+    commands:
+      - .buildkite/deploy.sh
